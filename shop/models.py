@@ -13,6 +13,7 @@ class PetCategory(models.Model):
 class Pet(models.Model):
     CATEGORY = models.ForeignKey(PetCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='pet_images/',default='pet_images/default.jpg')
     description = models.TextField()
     breed = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
