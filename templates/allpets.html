@@ -27,7 +27,7 @@
               New
             </div>
             <div class="card position-relative">
-              <a href="single-product.html"><img src="{% static 'images/item1.jpg' %}" class="img-fluid rounded-4" alt="image"></a>
+              <a href="single-product.html"><img src="{% static 'images/item1.jpg' %}" class="img-fluid rounded-4" alt="image" style="width: 250px; height: 250px; object-fit: cover;"></a>
               <div class="card-body p-0">
                 <a href="single-product.html">
                   <h3 class="card-title pt-4 m-0">Grey hoodie</h3>
@@ -65,7 +65,7 @@
               New
             </div>
             <div class="card position-relative">
-              <a href="single-product.html"><img src="{{ pet.image.url }}" class="img-fluid rounded-4" alt="image"></a>
+              <a href="single-product.html"><img src="{{ pet.image.url }}" class="img-fluid rounded-4" alt="image" style="width: 250px; height: 250px; object-fit: cover;"></a>
               <div class="card-body p-0">
                 <a href="single-product.html">
                   <h3 class="card-title pt-4 m-0">{{ pet.name }}</h3>
