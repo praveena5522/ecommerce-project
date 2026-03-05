@@ -298,12 +298,15 @@
               <li class="nav-item">
                 <a href="index.html" class="nav-link">Blog</a>
               </li>
+              
+              {%  if user.is_authenticated %}
               <li class="nav-item">
-                <a href="index.html" class="nav-link">Contact</a>
+                <a href="/logout/" class="nav-link">logout</a>
               </li>
               <li class="nav-item">
-                <a href="index.html" class="nav-link">Others</a>
+                <a href="#" class="nav-link">{{ user.first_name }} {{ user.last_name }}</a>
               </li>
+              {% endif %}
             </ul>
 
             <div class="d-none d-lg-flex align-items-end">
