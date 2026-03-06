@@ -7,10 +7,11 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def home1(request):
-    return render(request,"index.html")
+    pets = Pet.objects.all().order_by('-id')[:4]
+    return render(request,"index.html", {"pets": pets})
 
 def allpets(request):
-    pets = Pet.objects.all()
+    pets = Pet.objects.all().order_by('-id')
     return render(request,"allpets.html", {"pets": pets})
 
 def login1(request):
@@ -51,3 +52,7 @@ def register(request):
 def logout1(request):
     logout(request)
     return redirect('home')
+
+def detailes1(request,p_id):
+    pet = Pet.objects.get(id=p_id)
+    return render(request,"detailes.html", {"pet": pet})

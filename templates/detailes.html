@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}All Pets{% endblock %}
+
+{% block content %}
+<div style="color: rgb(234, 24, 115); font-size: 20px; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; margin-top: 50px; padding: 20px; border-radius: 5px;">
+<h1 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><u>{{pet.name}}</u></h1>
+
+<img src="{{ pet.image.url }}" alt="" style="width: 250px; height: 250px; object-fit: cover;">
+<p>breed: {{pet.breed}}</p>
+<p>age: {{ pet.age }}</p>
+<p>size: {{ pet.size}}</p>
+<p>description: {{ pet.description }}</p>
+<p>price$: {{ pet.price }}</p>
+
+</div>
+
+
+
+  
+{% endblock %}
+
+
