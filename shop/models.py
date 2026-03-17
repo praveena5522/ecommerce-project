@@ -22,3 +22,13 @@ class Pet(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class Cart(models.Model):
+    cart_id = models.CharField(max_length=100, unique=True)
+
+
+class CartItem(models.Model):
+    CART = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    PET =models.ForeignKey(Pet, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)

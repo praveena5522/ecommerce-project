@@ -12,6 +12,8 @@
 <p>size: {{ pet.size}}</p>
 <p>description: {{ pet.description }}</p>
 <p>price$: {{ pet.price }}</p>
+<button><a href="{% url 'add_to_cart' pet.id %}">add to cart</a></button>
+<button>buy now</button>
 
 </div>
 

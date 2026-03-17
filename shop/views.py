@@ -1,14 +1,30 @@
 from django.shortcuts import render,redirect
 
-from shop.models import Pet
+from shop.models import Cart, CartItem, Pet
 
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 
 # Create your views here.
+def cart_id(request):
+    cart_id = request.session.session_key
+    if not cart_id:
+        cart_id = request.session.create()
+        cart_id = request.session.session_key
+    return cart_id
+
+def cart_item(request):
+    c_id = cart_id(request)
+    cart = Cart.objects.get(cart_id=c_id)
+    cart_items = CartItem.objects.filter(CART=cart)
+    return cart_items
+    
+
+
 def home1(request):
+    cart_items = cart_item(request)
     pets = Pet.objects.all().order_by('-id')[:4]
-    return render(request,"index.html", {"pets": pets})
+    return render(request,"index.html", {"pets": pets, "cart_items": cart_items})
 
 def allpets(request):
     pets = Pet.objects.all().order_by('-id')
@@ -56,3 +72,34 @@ def logout1(request):
 def detailes1(request,p_id):
     pet = Pet.objects.get(id=p_id)
     return render(request,"detailes.html", {"pet": pet})
+
+
+def cart_id(request):
+    cart_id = request.session.session_key
+    if not cart_id:
+        cart_id = request.session.create()
+        cart_id = request.session.session_key
+    return cart_id
+
+def add_to_cart(request, p_id):
+    pet = Pet.objects.get(id=p_id)
+    c_id = cart_id(request)
+    try:
+        cart = Cart.objects.get(cart_id=c_id)
+    
+    except:
+        cart = Cart.objects.create(cart_id=c_id)
+        cart.save()
+
+    
+    try:
+        cart_item = CartItem.objects.get(PET=pet, CART=cart)
+        cart_item.quantity += 1
+        cart_item.save()
+    except:
+        cart_item = CartItem.objects.create(PET=pet, CART=cart, quantity=1)
+        cart_item.save()
+
+    return redirect("home")
+
+    
