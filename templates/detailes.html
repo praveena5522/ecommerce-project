@@ -3,23 +3,99 @@
 {% block title %}All Pets{% endblock %}
 
 {% block content %}
-<div style="color: rgb(234, 24, 115); font-size: 20px; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; margin-top: 50px; padding: 20px; border-radius: 5px;">
-<h1 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><u>{{pet.name}}</u></h1>
+<style>
+.product-details-wrap {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+}
+.product-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.product-details-img img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+.product-details-info h1 {
+  margin-top: 0;
+  color: #ea1873;
+  font-size: 2.1rem;
+}
+.product-details-info p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #444;
+}
+.product-details-buttons {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.product-details-buttons a,
+.product-details-buttons button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.product-details-buttons a {
+  color: #fff;
+  background: #ff6b81;
+}
+.product-details-buttons button {
+  background: #242424;
+  color: #fff;
+}
+.product-details-buttons a:hover,
+.product-details-buttons button:hover {
+  opacity: 0.92;
+}
+@media (max-width: 768px) {
+  .product-details-grid {
+    grid-template-columns: 1fr;
+  }
+  .product-details-wrap {
+    margin: 20px;
+    padding: 15px;
+  }
+}
+</style>
 
-<img src="{{ pet.image.url }}" alt="" style="width: 250px; height: 250px; object-fit: cover;">
-<p>breed: {{pet.breed}}</p>
-<p>age: {{ pet.age }}</p>
-<p>size: {{ pet.size}}</p>
-<p>description: {{ pet.description }}</p>
-<p>price$: {{ pet.price }}</p>
-<button><a href="{% url 'add_to_cart' pet.id %}">add to cart</a></button>
-<button>buy now</button>
-
+<div class="product-details-wrap">
+  <div class="product-details-grid">
+    <div class="product-details-img">
+      <img src="{{ pet.image.url }}" alt="{{ pet.name }}" style="width: 100%; max-width: 420px; height: 420px; object-fit: cover; border-radius: 10px;">
+    </div>
+    <div class="product-details-info">
+      <h1>{{ pet.name }}</h1>
+      <p><strong>Breed:</strong> {{ pet.breed }}</p>
+      <p><strong>Age:</strong> {{ pet.age }}</p>
+      <p><strong>Size:</strong> {{ pet.size }}</p>
+      <p><strong>Description:</strong> {{ pet.description }}</p>
+      <p><strong>Price:</strong> ${{ pet.price }}</p>
+      <div class="product-details-buttons">
+        <a href="{% url 'add_to_cart' pet.id %}">Add to cart</a>
+        <button type="button">Buy now</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-
-  
 {% endblock %}
 
 
