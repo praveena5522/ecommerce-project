@@ -15,7 +15,7 @@ def cart_id(request):
 
 def cart_item(request):
     c_id = cart_id(request)
-    cart = Cart.objects.get(cart_id=c_id)
+    cart, created = Cart.objects.get_or_create(cart_id=c_id)
     cart_items = CartItem.objects.filter(CART=cart)
     return cart_items
     
@@ -41,7 +41,7 @@ def login1(request):
             login(request, user)
             return redirect('home')
         else:
-            return render(request,"login.html",{'error': 'Invalid username or password'}, {"cart_items": cart_items})
+            return render(request,"login.html",{'error': 'Invalid username or password', "cart_items": cart_items})
     return render(request,"login.html", {"cart_items": cart_items})
 
 def register(request):
@@ -54,11 +54,11 @@ def register(request):
         pass1 = request.POST['password']
         pass2 = request.POST['confirm_password']
         if pass1 != pass2:
-            return render(request,"register.html", {"error": "Passwords do not match"}, {"cart_items": cart_items})
+            return render(request,"register.html", {"error": "Passwords do not match", "cart_items": cart_items})
         if User.objects.filter(username=uname).exists():
-            return render(request,"register.html", {"error": "Username already exists"}, {"cart_items": cart_items})
+            return render(request,"register.html", {"error": "Username already exists", "cart_items": cart_items})
         if User.objects.filter(email=email).exists():
-            return render(request,"register.html", {"error": "Email already exists"}, {"cart_items": cart_items})
+            return render(request,"register.html", {"error": "Email already exists", "cart_items": cart_items})
         
         user = User.objects.create_user(username=uname, email=email, password=pass1, first_name=fname, last_name=lname)
         user.save()
