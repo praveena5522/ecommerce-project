@@ -23,13 +23,13 @@
         <div class="row">
 
           
-          {% for pet in pets %}
-          <div class="col-12 col-md-6 col-lg-3 mb-4">
+          {% for pet in page_obj %}
+          <div style="text-align: center;" class="col-12 col-md-6 col-lg-3 mb-4">
             <div class="z-1 position-absolute rounded-3 m-3 px-3 border border-dark-subtle">
               New
             </div>
             <div class="card position-relative">
-              <a href="{% url 'detailes' pet.id %}"><img src="{{ pet.image.url }}" class="img-fluid rounded-4" alt="image" style="width: 250px; height: 250px; object-fit: cover;"></a>
+              <a href="{% url 'detailes' pet.id %}"><img src="{{ pet.image.url }}" class="img-fluid rounded-4" alt="image" style="width: 300px; height: 300px; object-fit: cover;" ></a>
               <div class="card-body p-0">
                 <a href="{% url 'detailes' pet.id %}">
                   <h3 class="card-title pt-4 m-0">{{ pet.name }}</h3>
@@ -70,6 +70,23 @@
 
 
     </div>
+    <div  class="pagination" style="display: flex; justify-content: center; margin-top: 20px;">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
   </section> 
   
 {% endblock %}
