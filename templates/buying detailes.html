@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Buying Details{% endblock %}
+
+{% block content %}
+
+
+<h1>Buying Details</h1>
+<form action="" method="post">
+    {% csrf_token %}
+<table>
+    <tr>
+        <td>name</td>
+        <td><input type="text" name="name"></td>
+
+    </tr>
+    <tr>
+        <td>address</td>
+        <td><input type="text" name="address"></td>
+    </tr>
+    <tr>
+        <td>number</td>
+        <td><input type="text" name="number"></td>
+    </tr>
+    <tr>
+        <td>pincode</td>
+        <td><input type="text" name="pincode"></td>
+    </tr>
+    <tr>
+        <td>payment method</td>
+        <td><select name="payment">
+            <option value="online">Online Payment</option>
+            <option value="cash_on_delivery">Cash on Delivery</option>
+        </select></td>
+    </tr>
+</table>
+<button type="submit">Submit</button>
+</form>
+
+
+{% endblock %}

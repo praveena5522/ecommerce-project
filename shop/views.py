@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 
-from shop.models import Cart, CartItem, Pet
+from shop.models import Cart, CartItem, Pet, BuyAddress, orders
 
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
@@ -41,7 +41,7 @@ def allpets(request):
             pets = Pet.objects.all().order_by('-id')
     except KeyError:
         pets = Pet.objects.all().order_by('-id')
-    paginator = Paginator(pets,5)
+    paginator = Paginator(pets,3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request,"allpets.html", {"page_obj": page_obj, "cart_items": cart_items})
@@ -136,3 +136,29 @@ def remove_cart_item(request,p_id):
     cart_item = CartItem.objects.get(PET=pet, CART=cart)
     cart_item.delete()
     return redirect("home")
+
+
+def buying_detailes(request, p_id):
+    pet = Pet.objects.get(id=p_id)
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        name = request.POST['name']
+        address = request.POST['address']
+        phone = request.POST['number']
+        pincode = request.POST['pincode']
+        payment_method = request.POST['payment']
+        print(name, address, phone, pincode, payment_method)
+        
+
+        ad  = BuyAddress.objects.create(USER=user, name=name, address=address, phone=phone, pincode=pincode, payment_method=payment_method)
+        ad.save()
+        orders.objects.create(ADDRESS=ad, PRODUCT=pet, price=pet.price, quantity=1,order_status='Pending')
+        return redirect('detailes', p_id=p_id)
+    return render(request,"buying detailes.html")
+
+def my_orders(request):
+    user = request.user
+    orders1 = orders.objects.filter(ADDRESS__USER=user).order_by('-created_at')
+    return render(request,"orders.html", {"orders": orders1})

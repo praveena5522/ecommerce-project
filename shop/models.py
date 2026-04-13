@@ -32,3 +32,22 @@ class CartItem(models.Model):
     PET =models.ForeignKey(Pet, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class BuyAddress(models.Model):
+    USER = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    address = models.TextField()
+    phone = models.CharField(max_length=20)
+    pincode = models.CharField(max_length=10)
+    payment_method = models.CharField(max_length=50)
+
+
+class orders(models.Model):
+    ADDRESS = models.ForeignKey(BuyAddress, on_delete=models.CASCADE)
+    PRODUCT = models.ForeignKey(Pet, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    order_status = models.CharField(max_length=50, default='Pending')
+
+    
