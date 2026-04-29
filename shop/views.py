@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 
-from shop.models import Cart, CartItem, Pet, BuyAddress, orders
+from shop.models import Cart, CartItem, Pet, BuyAddress, orders,PetCategory
 
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
@@ -9,6 +9,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 
 # Create your views here.
+
+
 def cart_id(request):
     cart_id = request.session.session_key
     if not cart_id:
@@ -26,25 +28,33 @@ def cart_item(request):
 
 def home1(request):
     cart_items = cart_item(request)
+    category = PetCategory.objects.all()
     pets = Pet.objects.all().order_by('-id')[:4]
-    return render(request,"index.html", {"pets": pets, "cart_items": cart_items})
+    return render(request,"index.html", {"pets": pets, "cart_items": cart_items,"categories": category})
 
 def allpets(request):
     cart_items = cart_item(request)
+    category_req = request.GET.get('category')
+    category = PetCategory.objects.all()
 
-    
     try:
         qry = request.GET['q']
         if qry:
             pets = Pet.objects.filter(Q(name__icontains=qry) | Q(description__icontains=qry)).order_by('-id')
         else:
-            pets = Pet.objects.all().order_by('-id')
+            if category_req:
+                pets = Pet.objects.filter(CATEGORY__id=category_req).order_by('-id')
+            else:
+                pets = Pet.objects.all().order_by('-id')    
     except KeyError:
-        pets = Pet.objects.all().order_by('-id')
+        if category_req:
+                pets = Pet.objects.filter(CATEGORY__id=category_req).order_by('-id')
+        else:
+            pets = Pet.objects.all().order_by('-id') 
     paginator = Paginator(pets,3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request,"allpets.html", {"page_obj": page_obj, "cart_items": cart_items})
+    return render(request,"allpets.html", {"page_obj": page_obj, "cart_items": cart_items,"categories": category})
 
 def login1(request):
     cart_items = cart_item(request)

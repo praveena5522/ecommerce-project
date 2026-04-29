@@ -180,7 +180,7 @@
 
         <div class="col-sm-4 col-lg-3 text-center text-sm-start">
           <div class="main-logo">
-            <a href="index.html">
+            <a href="/">
               <img src="{% static 'images/logo.png' %}" alt="logo" class="img-fluid">
             </a>
           </div>
@@ -270,12 +270,11 @@
           </div>
 
           <div class="offcanvas-body justify-content-between">
-            <select class="filter-categories border-0 mb-0 me-5">
-              <option>Shop by Category</option>
-              <option>Clothes</option>
-              <option>Food</option>
-              <option>Food</option>
-              <option>Toy</option>
+            <select  id="petCategories" class="filter-categories border-0 mb-0 me-5">
+              <option value="/allpets/">All</option>
+              {% for i in categories %}
+              <option value="/allpets/?category={{ i.id }}">{{ i.name }}</option>
+              {% endfor %}
             </select>
 
             <ul class="navbar-nav menu-list list-unstyled d-flex gap-md-3 mb-0">
@@ -358,6 +357,11 @@
   </header>
   {% block content %}
   {% endblock %}
+<script>
+  document.getElementById("petCategories").onchange = function() {
+    window.location = this.value;
+  };
+</script>
 
 
 
